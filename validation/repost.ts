@@ -66,10 +66,16 @@ function deriveContent(event: Event): string {
 /**
  * Create the filters to listen for events that we want to repost
  */
-function createFilter(isDev: true | undefined): nostrTools.Filter {
+function createFilter(
+  isDev: true | undefined,
+  maxAgeMinutes: number | undefined
+): nostrTools.Filter {
+  const maxAgeSeconds =
+    typeof maxAgeMinutes === "undefined" ? 60 * 60 : maxAgeMinutes * 60;
+
   const baseFilter: nostrTools.Filter = {
     kinds: [MAP_NOTE_KIND],
-    // since: Math.floor(Date.now() / 1e3),
+    since: Math.floor(Date.now() / 1e3) - maxAgeSeconds,
   };
 
   if (isDev) {
@@ -79,10 +85,14 @@ function createFilter(isDev: true | undefined): nostrTools.Filter {
   return baseFilter;
 }
 
-export async function repost(privateKey: Uint8Array, isDev: true | undefined) {
+export async function repost(
+  privateKey: Uint8Array,
+  isDev: true | undefined,
+  maxAgeMinutes: number | undefined
+) {
   const relay = await getRelay(isDev);
 
-  const filter = createFilter(isDev);
+  const filter = createFilter(isDev, maxAgeMinutes);
 
   const oneose = isDev
     ? () => {

@@ -22,12 +22,17 @@ await new cliffy.Command()
     "PRIVATE_KEY_NSEC=<value:string>",
     "Specify the private key in nsec format"
   )
+  .env(
+    "MAX_AGE_MINUTES=<value:number>",
+    "How many minutes into the past to check for events to validate"
+  )
   .action((options) => {
     const { isDev } = options;
     const privateKey = getOrCreatePrivateKey(options.privateKeyNsec);
+    const maxAgeMinutes = options.maxAgeMinutes;
 
     console.log(`#PnFUPS Startup isDev ${isDev}`);
 
-    repost(privateKey, isDev);
+    repost(privateKey, isDev, maxAgeMinutes);
   })
   .parse(Deno.args);
