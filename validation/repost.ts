@@ -44,11 +44,15 @@ function generateRepostedEvent(originalEvent: Event, privateKey: Uint8Array) {
   const dTag = ["d", `${originalEvent.pubkey}:${originalEvent.id}`];
   const eTag = ["e", originalEvent.id];
   const pTag = ["p", originalEvent.pubkey];
+  const originalCreatedAtTag = [
+    "original_created_at",
+    `${originalEvent.created_at}`,
+  ];
 
   const eventTemplate: EventTemplate = {
     kind: MAP_NOTE_REPOST_KIND,
     created_at: Math.floor(Date.now() / 1000),
-    tags: [eTag, pTag, dTag, ...derivedTags],
+    tags: [eTag, pTag, dTag, originalCreatedAtTag, ...derivedTags],
     content: derivedContent,
   };
   const signedEvent = finalizeEvent(eventTemplate, privateKey);
