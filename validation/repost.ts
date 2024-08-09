@@ -2,18 +2,25 @@ import { nostrToolsRelay } from "../deps.ts";
 const { Relay } = nostrToolsRelay;
 
 import { nostrTools } from "../deps.ts";
+const { finalizeEvent } = nostrTools;
 type Event = nostrTools.Event;
 
-import { RELAY, OFFER_KIND } from "../common/constants.ts";
+import {
+  DEV_RELAYS,
+  MAP_NOTE_KIND,
+  MAP_NOTE_REPOST_KIND,
+} from "../common/constants.ts";
+
+const RELAY = DEV_RELAYS[0];
 
 console.log(`connecting to ${RELAY}…`);
-const relay = await Relay.connect("wss://nos.lol");
+const relay = await Relay.connect(RELAY);
 console.log(`connected to ${relay.url}`);
 
 const sub = relay.subscribe(
   [
     {
-      kinds: [OFFER_KIND],
+      kinds: [MAP_NOTE_KIND],
     },
   ],
   {
@@ -27,24 +34,20 @@ const sub = relay.subscribe(
 );
 
 function validateEvent(event: Event) {
+  if (!event.kind == MAP_NOTE_KIND) {
+    return false;
+  }
   return true;
 }
 
-function generateRepostedEvent(event: Event) {
-  const content = JSON.stringify(event);
+function generateRepostedEvent(originalEvent: Event) {
+  const originalContent = JSON.stringify(originalEvent);
   const eventTemplate = {
-    kind: 450,
+    kind: MAP_NOTE_REPOST_KIND,
     created_at: Math.floor(Date.now() / 1000),
-    tags: [
-      [
-        "a",
-        "34550:<Community event author pubkey>:<d-identifier of the community>",
-        "<Optional relay url>",
-      ],
-      ["e", "<Post Request ID>", "<Optional relay url>"],
-      ["p", "<Post Request Author ID>", "<Optional relay url>"],
-      ["k", "<New Post Request kind>"],
-    ],
-    content: content,
+    tags: [["e", originalEvent.id], ...originalEvent.tags],
+    content: originalContent,
   };
+  const signedEvent = finalizeEvent(eventTemplate, sk);
+  return signedEvent;
 }
