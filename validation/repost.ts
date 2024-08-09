@@ -9,6 +9,7 @@ type VerifiedEvent = nostrTools.VerifiedEvent;
 type Tags = string[][];
 
 import {
+  DEFAULT_RELAYS,
   DEV_RELAYS,
   MAP_NOTE_KIND,
   MAP_NOTE_REPOST_KIND,
@@ -16,13 +17,21 @@ import {
 import { DEV_PUBKEY } from "../common/constants.ts";
 import { validateEvent } from "./validate.ts";
 
-const RELAY = DEV_RELAYS[0];
+async function getRelay(
+  isDev: true | undefined
+): Promise<nostrToolsRelay.Relay> {
+  const relayUrl = isDev ? DEV_RELAYS[0] : DEFAULT_RELAYS[0];
 
-console.log(`connecting to ${RELAY}…`);
-const relay = await Relay.connect(RELAY);
-console.log(`connected to ${relay.url}`);
+  console.log(`#nadQka Connecting to ${relayUrl}`);
+  const relay = await Relay.connect(relayUrl);
+  console.log(`#CmJWu4 Connected to ${relay.url}`);
+  return relay;
+}
 
-async function publishEvent(event: VerifiedEvent) {
+async function publishEvent(
+  relay: nostrToolsRelay.Relay,
+  event: VerifiedEvent
+) {
   await relay.publish(event);
 }
 
@@ -71,6 +80,8 @@ function createFilter(isDev: true | undefined): nostrTools.Filter {
 }
 
 export async function repost(privateKey: Uint8Array, isDev: true | undefined) {
+  const relay = await getRelay(isDev);
+
   const filter = createFilter(isDev);
 
   const oneose = isDev
@@ -91,7 +102,7 @@ export async function repost(privateKey: Uint8Array, isDev: true | undefined) {
         return;
       }
       const repostedEvent = generateRepostedEvent(event, privateKey);
-      publishEvent(repostedEvent);
+      publishEvent(relay, repostedEvent);
     },
     oneose,
   });

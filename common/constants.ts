@@ -9,8 +9,8 @@ export const OPEN_LOCATION_CODE_NAMESPACE_TAG = "open-location-code";
 export const MAP_NOTE_KIND = 397;
 export const MAP_NOTE_REPOST_KIND = 30398;
 export const DEFAULT_RELAYS = [
-  "wss://relay.primal.net",
   "wss://relay.damus.io",
+  "wss://relay.primal.net",
   "wss://nostr.manasiwibi.com",
 ];
 export const DEV_RELAYS = ["wss://nos.lol"];
