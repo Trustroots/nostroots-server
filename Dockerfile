@@ -13,4 +13,4 @@ RUN deno cache deps.ts
 # These steps will be re-run upon each file change in your working directory:
 COPY . .
 
-CMD ["run", "--allow-net", "validation/repost.ts"]
+CMD ["task", "run"]
