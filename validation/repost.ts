@@ -37,11 +37,12 @@ function generateRepostedEvent(originalEvent: Event, privateKey: Uint8Array) {
   const derivedContent = deriveContent(originalEvent);
   const dTag = ["d", `${originalEvent.pubkey}:${originalEvent.id}`];
   const eTag = ["e", originalEvent.id];
+  const pTag = ["p", originalEvent.pubkey];
 
   const eventTemplate: EventTemplate = {
     kind: MAP_NOTE_REPOST_KIND,
     created_at: Math.floor(Date.now() / 1000),
-    tags: [eTag, dTag, ...derivedTags],
+    tags: [eTag, pTag, dTag, ...derivedTags],
     content: derivedContent,
   };
   const signedEvent = finalizeEvent(eventTemplate, privateKey);
@@ -72,7 +73,13 @@ function createFilter(isDev: true | undefined): nostrTools.Filter {
 export async function repost(privateKey: Uint8Array, isDev: true | undefined) {
   const filter = createFilter(isDev);
 
-  const oneose = isDev ? () => relay.close() : () => {};
+  const oneose = isDev
+    ? () => {
+        globalThis.setTimeout(() => {
+          relay.close();
+        }, 10e3);
+      }
+    : () => {};
 
   const sub = relay.subscribe([filter], {
     onevent: (event) => {
