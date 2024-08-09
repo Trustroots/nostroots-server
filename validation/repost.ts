@@ -21,6 +21,12 @@ console.log(`connecting to ${RELAY}…`);
 const relay = await Relay.connect(RELAY);
 console.log(`connected to ${relay.url}`);
 
+/**
+ * Does this event meet our requirements for automated validation?
+ *
+ * Check things like, is the event signed by the pubkey which is linked to the
+ * correct trustroots profile.
+ */
 function validateEvent(event: Event) {
   if (!event.kind == MAP_NOTE_KIND) {
     return false;
@@ -32,6 +38,9 @@ async function publishEvent(event: VerifiedEvent) {
   await relay.publish(event);
 }
 
+/**
+ * Take a nostr event that was signed by a user and generate the repost event.
+ */
 function generateRepostedEvent(originalEvent: Event, privateKey: Uint8Array) {
   const derivedTags = deriveTags(originalEvent);
   const derivedContent = deriveContent(originalEvent);
@@ -57,6 +66,9 @@ function deriveContent(event: Event): string {
   return event.content;
 }
 
+/**
+ * Create the filters to listen for events that we want to repost
+ */
 function createFilter(isDev: true | undefined): nostrTools.Filter {
   const baseFilter: nostrTools.Filter = {
     kinds: [MAP_NOTE_KIND],
