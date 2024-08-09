@@ -1,5 +1,8 @@
-import { Relay } from "npm:nostr-tools/relay";
-import type { Event } from "npm:nostr-tools";
+import { nostrToolsRelay } from "../deps.ts";
+const { Relay } = nostrToolsRelay;
+
+import { nostrTools } from "../deps.ts";
+type Event = nostrTools.Event;
 
 import { RELAY, OFFER_KIND } from "../common/constants.ts";
 
@@ -14,7 +17,7 @@ const sub = relay.subscribe(
     },
   ],
   {
-    onevent(event: Event) {
+    onevent(event: nostrTools.Event) {
       console.log("we got the event we wanted:", event);
     },
     oneose() {
