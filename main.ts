@@ -17,13 +17,15 @@ function getOrCreatePrivateKey(maybePrivateKeyNsec?: string) {
 }
 
 await new cliffy.Command()
+  .globalEnv("IS_DEV", "Set to true to run in development mode")
   .globalEnv(
     "PRIVATE_KEY_NSEC=<value:string>",
     "Specify the private key in nsec format"
   )
   .action((options) => {
+    const { isDev } = options;
     const privateKey = getOrCreatePrivateKey(options.privateKeyNsec);
 
-    repost(privateKey);
+    repost(privateKey, isDev);
   })
   .parse(Deno.args);

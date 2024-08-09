@@ -13,6 +13,7 @@ import {
   MAP_NOTE_KIND,
   MAP_NOTE_REPOST_KIND,
 } from "../common/constants.ts";
+import { DEV_PUBKEY } from "../common/constants.ts";
 
 const RELAY = DEV_RELAYS[0];
 
@@ -55,23 +56,30 @@ function deriveContent(event: Event): string {
   return event.content;
 }
 
-export async function repost(privateKey: Uint8Array) {
-  const sub = relay.subscribe(
-    [
-      {
-        kinds: [MAP_NOTE_KIND],
-        since: Math.floor(Date.now() / 1e3),
-      },
-    ],
-    {
-      onevent: (event) => {
-        if (!validateEvent(event)) {
-          console.info(`Discarding event…`);
-          return;
-        }
-        const repostedEvent = generateRepostedEvent(event, privateKey);
-        publishEvent(repostedEvent);
-      },
-    }
-  );
+function createFilter(isDev: true | undefined): nostrTools.Filter {
+  const baseFilter: nostrTools.Filter = {
+    kinds: [MAP_NOTE_KIND],
+    // since: Math.floor(Date.now() / 1e3),
+  };
+
+  if (isDev) {
+    return { ...baseFilter, authors: [DEV_PUBKEY] };
+  }
+
+  return baseFilter;
+}
+
+export async function repost(privateKey: Uint8Array, isDev: true | undefined) {
+  const filter = createFilter(isDev);
+
+  const sub = relay.subscribe([filter], {
+    onevent: (event) => {
+      if (!validateEvent(event)) {
+        console.info(`Discarding event…`);
+        return;
+      }
+      const repostedEvent = generateRepostedEvent(event, privateKey);
+      publishEvent(repostedEvent);
+    },
+  });
 }
