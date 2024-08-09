@@ -72,8 +72,12 @@ function createFilter(isDev: true | undefined): nostrTools.Filter {
 export async function repost(privateKey: Uint8Array, isDev: true | undefined) {
   const filter = createFilter(isDev);
 
+  const oneose = isDev ? () => relay.close() : () => {};
+
   const sub = relay.subscribe([filter], {
     onevent: (event) => {
+      console.log("#9wKiBL Got event", event);
+
       if (!validateEvent(event)) {
         console.info(`Discarding event…`);
         return;
@@ -81,5 +85,6 @@ export async function repost(privateKey: Uint8Array, isDev: true | undefined) {
       const repostedEvent = generateRepostedEvent(event, privateKey);
       publishEvent(repostedEvent);
     },
+    oneose,
   });
 }

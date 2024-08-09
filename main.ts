@@ -26,6 +26,8 @@ await new cliffy.Command()
     const { isDev } = options;
     const privateKey = getOrCreatePrivateKey(options.privateKeyNsec);
 
+    console.log(`#PnFUPS Startup isDev ${isDev}`);
+
     repost(privateKey, isDev);
   })
   .parse(Deno.args);
