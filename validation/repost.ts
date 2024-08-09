@@ -14,25 +14,13 @@ import {
   MAP_NOTE_REPOST_KIND,
 } from "../common/constants.ts";
 import { DEV_PUBKEY } from "../common/constants.ts";
+import { validateEvent } from "./validate.ts";
 
 const RELAY = DEV_RELAYS[0];
 
 console.log(`connecting to ${RELAY}…`);
 const relay = await Relay.connect(RELAY);
 console.log(`connected to ${relay.url}`);
-
-/**
- * Does this event meet our requirements for automated validation?
- *
- * Check things like, is the event signed by the pubkey which is linked to the
- * correct trustroots profile.
- */
-function validateEvent(event: Event) {
-  if (!event.kind == MAP_NOTE_KIND) {
-    return false;
-  }
-  return true;
-}
 
 async function publishEvent(event: VerifiedEvent) {
   await relay.publish(event);
@@ -94,10 +82,11 @@ export async function repost(privateKey: Uint8Array, isDev: true | undefined) {
     : () => {};
 
   const sub = relay.subscribe([filter], {
-    onevent: (event) => {
+    onevent: async (event) => {
       console.log("#9wKiBL Got event", event);
 
-      if (!validateEvent(event)) {
+      const isEventValid = await validateEvent(relay, event);
+      if (!isEventValid) {
         console.info(`Discarding event…`);
         return;
       }
