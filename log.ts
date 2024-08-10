@@ -5,13 +5,14 @@ logPackage.setup({
     console: new logPackage.ConsoleHandler("DEBUG", {
       formatter: function (record) {
         const argsString =
-          record.args.length > 0 ? ` ${JSON.stringify(record.args)}` : "";
+          record.args.length > 0
+            ? `\n${Deno.inspect(record.args, { colors: true })}`
+            : "";
         return `${record.datetime.toISOString()} [${record.levelName}] ${
           record.msg
         } ${argsString}`;
       },
-
-      useColors: true,
+      useColors: false,
     }),
   },
   loggers: {
