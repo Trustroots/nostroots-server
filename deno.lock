@@ -2,7 +2,7 @@
   "version": "3",
   "packages": {
     "specifiers": {
-      "jsr:@nostrify/nostrify": "jsr:@nostrify/nostrify@0.30.0",
+      "jsr:@nostrify/nostrify@^0.30.0": "jsr:@nostrify/nostrify@0.30.0",
       "jsr:@nostrify/types@^0.30.0": "jsr:@nostrify/types@0.30.0",
       "jsr:@std/encoding@^0.224.1": "jsr:@std/encoding@0.224.3",
       "npm:@scure/bip32@^1.4.0": "npm:@scure/bip32@1.4.0",
