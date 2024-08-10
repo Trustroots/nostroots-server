@@ -5,6 +5,7 @@ import {
 import { MINIMUM_TRUSTROOTS_USERNAME_LENGTH } from "../common/constants.ts";
 import { MAP_NOTE_KIND } from "../common/constants.ts";
 import { nostrify, nostrTools } from "../deps.ts";
+import { log } from "../log.ts";
 import { Profile } from "../types.ts";
 
 async function getKindZeroEvent(relayPool: nostrify.NPool, pubKey: string) {
@@ -30,7 +31,7 @@ async function getKindZeroEvent(relayPool: nostrify.NPool, pubKey: string) {
 }
 
 function getProfileFromEvent(event: nostrTools.Event): Profile | undefined {
-  console.log("kindZeroEvent", event);
+  log.debug("#GHg51j kindZeroEvent", event);
   try {
     const profile = JSON.parse(event.content);
 
@@ -79,7 +80,7 @@ async function getNip5PubKey(
  */
 export async function validateEvent(
   relayPool: nostrify.NPool,
-  event: nostrTools.Event
+  event: nostrify.NostrEvent
 ) {
   if (event.kind !== MAP_NOTE_KIND) {
     return false;
@@ -93,33 +94,33 @@ export async function validateEvent(
   const kindZeroEvent = await getKindZeroEvent(relayPool, event.pubkey);
 
   if (typeof kindZeroEvent === "undefined") {
-    console.log("#Kmf59M Skipping event with no kind zero event", { event });
+    log.debug("#Kmf59M Skipping event with no kind zero event", { event });
     return false;
   }
 
   const profile = getProfileFromEvent(kindZeroEvent);
 
   if (typeof profile === "undefined") {
-    console.log("#pd4X7C Skipping event with invalid profile", { event });
+    log.debug("#pd4X7C Skipping event with invalid profile", { event });
     return false;
   }
 
   const { trustrootsUsername } = profile;
 
-  console.log(`Checking username ${trustrootsUsername}`);
+  log.debug(`#yUtER5 Checking username ${trustrootsUsername}`);
 
   const nip5PubKey = await getNip5PubKey(trustrootsUsername);
 
   if (typeof nip5PubKey !== "string") {
-    console.log("#b0gWmE Failed to get string nip5 pubkey", { event });
+    log.debug("#b0gWmE Failed to get string nip5 pubkey", { event });
     return false;
   }
 
   if (event.pubkey !== nip5PubKey) {
-    console.log("#dtKr5H Event failed nip5 validation", { event });
+    log.debug("#dtKr5H Event failed nip5 validation", { event });
     return false;
   }
 
-  console.log("#lpglLu Event passed validation", event);
+  log.debug("#lpglLu Event passed validation", event);
   return true;
 }

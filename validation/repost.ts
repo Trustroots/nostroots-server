@@ -10,6 +10,9 @@ import {
 } from "../common/constants.ts";
 import { DEV_PUBKEY } from "../common/constants.ts";
 import { validateEvent } from "./validate.ts";
+import { newQueue } from "../deps.ts";
+import { nostrTools } from "../deps.ts";
+import { log } from "../log.ts";
 
 async function getRelayPool(isDev: true | undefined) {
   const relays = isDev ? DEV_RELAYS : DEFAULT_RELAYS;
@@ -39,9 +42,9 @@ async function publishEvent(
   relayPool: nostrify.NPool,
   event: nostrify.NostrEvent
 ) {
-  console.log("Publishing event…");
+  log.debug("#aSmTVL Publishing event…");
   await relayPool.event(event);
-  console.log("Event published.");
+  log.info("#p26tur Event published.");
 }
 
 /**
@@ -102,11 +105,32 @@ function createFilter(
   return [baseFilter];
 }
 
+function processEventFactoryFactory(
+  relayPool: nostrify.NPool,
+  privateKey: Uint8Array
+) {
+  return function processEventFactory(event: nostrify.NostrEvent) {
+    return async function () {
+      log.debug(`#C1NJbQ Got event`, event);
+
+      const isEventValid = await validateEvent(relayPool, event);
+      if (!isEventValid) {
+        log.info(`#u0Prc5 Discarding invalid event ${event.id}`);
+        return;
+      }
+      const repostedEvent = await generateRepostedEvent(event, privateKey);
+      publishEvent(relayPool, repostedEvent);
+    };
+  };
+}
+
 export async function repost(
   privateKey: Uint8Array,
   isDev: true | undefined,
   maxAgeMinutes: number | undefined
 ) {
+  log.debug(`#BmseJH Startup`);
+
   const relayPool = await getRelayPool(isDev);
 
   const filter = createFilter(isDev, maxAgeMinutes);
@@ -115,16 +139,13 @@ export async function repost(
   const signal = controller.signal;
   const subscription = relayPool.req(filter, { signal });
 
+  const queue = newQueue(3);
+  const processEventFactory = processEventFactoryFactory(relayPool, privateKey);
+
   for await (const msg of subscription) {
     if (msg[0] === "EVENT") {
       const event = msg[2];
-      const isEventValid = await validateEvent(relayPool, event);
-      if (!isEventValid) {
-        console.info(`Discarding event…`);
-        return;
-      }
-      const repostedEvent = await generateRepostedEvent(event, privateKey);
-      publishEvent(relayPool, repostedEvent);
+      queue.add(processEventFactory(event));
     } else if (msg[0] === "EOSE") {
       if (isDev) {
         globalThis.setTimeout(() => {

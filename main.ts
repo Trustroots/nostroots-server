@@ -1,4 +1,5 @@
 import { cliffy, nostrTools } from "./deps.ts";
+import { log } from "./log.ts";
 import { repost } from "./validation/repost.ts";
 
 function getOrCreatePrivateKey(maybePrivateKeyNsec?: string) {
@@ -12,7 +13,7 @@ function getOrCreatePrivateKey(maybePrivateKeyNsec?: string) {
 
   const key = nostrTools.generateSecretKey();
   const nsec = nostrTools.nip19.nsecEncode(key);
-  console.log(`#2yrJza Using random nsec ${nsec}`);
+  log.info(`#2yrJza Using random nsec ${nsec}`);
   return key;
 }
 
@@ -31,7 +32,7 @@ await new cliffy.Command()
     const privateKey = getOrCreatePrivateKey(options.privateKeyNsec);
     const maxAgeMinutes = options.maxAgeMinutes;
 
-    console.log(`#PnFUPS Startup isDev ${isDev}`);
+    log.debug(`#PnFUPS Startup isDev ${isDev}`);
 
     repost(privateKey, isDev, maxAgeMinutes);
   })
