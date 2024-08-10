@@ -13,6 +13,8 @@ import { validateEvent } from "./validate.ts";
 import { newQueue } from "../deps.ts";
 import { nostrTools } from "../deps.ts";
 import { log } from "../log.ts";
+import { async } from "../deps.ts";
+import { DELAY_AFTER_PROCESSING_EVENT_MS } from "../common/constants.ts";
 
 async function getRelayPool(isDev: true | undefined) {
   const relays = isDev ? DEV_RELAYS : DEFAULT_RELAYS;
@@ -120,6 +122,8 @@ function processEventFactoryFactory(
       }
       const repostedEvent = await generateRepostedEvent(event, privateKey);
       publishEvent(relayPool, repostedEvent);
+
+      await async.delay(DELAY_AFTER_PROCESSING_EVENT_MS);
     };
   };
 }

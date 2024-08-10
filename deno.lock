@@ -5,6 +5,7 @@
       "jsr:@henrygd/queue@1.0.6": "jsr:@henrygd/queue@1.0.6",
       "jsr:@nostrify/nostrify@^0.30.0": "jsr:@nostrify/nostrify@0.30.0",
       "jsr:@nostrify/types@^0.30.0": "jsr:@nostrify/types@0.30.0",
+      "jsr:@std/async@1.0.3": "jsr:@std/async@1.0.3",
       "jsr:@std/encoding@^0.224.1": "jsr:@std/encoding@0.224.3",
       "jsr:@std/fmt@^1.0.0-rc.1": "jsr:@std/fmt@1.0.0",
       "jsr:@std/fs@^1.0.0-rc.5": "jsr:@std/fs@1.0.1",
@@ -37,6 +38,9 @@
       },
       "@nostrify/types@0.30.0": {
         "integrity": "1f38fa849cff930bd709edbf94ef9ac02f46afb8b851f86c8736517b354616da"
+      },
+      "@std/async@1.0.3": {
+        "integrity": "6ed64678db43451683c6c176a21426a2ccd21ba0269ebb2c36133ede3f165792"
       },
       "@std/encoding@0.224.3": {
         "integrity": "5e861b6d81be5359fad4155e591acf17c0207b595112d1840998bb9f476dbdaf"
