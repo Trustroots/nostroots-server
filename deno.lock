@@ -8,6 +8,7 @@
       "npm:@scure/bip32@^1.4.0": "npm:@scure/bip32@1.4.0",
       "npm:@scure/bip39@^1.3.0": "npm:@scure/bip39@1.3.0",
       "npm:lru-cache@^10.2.0": "npm:lru-cache@10.4.3",
+      "npm:nostr-tools": "npm:nostr-tools@2.7.2",
       "npm:nostr-tools@^2.7.0": "npm:nostr-tools@2.7.2",
       "npm:websocket-ts@^2.1.5": "npm:websocket-ts@2.1.5",
       "npm:zod@^3.23.8": "npm:zod@3.23.8"
