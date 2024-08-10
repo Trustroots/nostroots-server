@@ -4,7 +4,7 @@ import {
 } from "../common/constants.ts";
 import { MINIMUM_TRUSTROOTS_USERNAME_LENGTH } from "../common/constants.ts";
 import { MAP_NOTE_KIND } from "../common/constants.ts";
-import { nostrify } from "../deps.ts";
+import { nostrify, nostrTools } from "../deps.ts";
 import { Profile } from "../types.ts";
 
 async function getKindZeroEvent(relayPool: nostrify.NPool, pubKey: string) {
@@ -90,7 +90,7 @@ export async function validateEvent(
     return true;
   }
 
-  const kindZeroEvent = await getKindZeroEvent(relay, event.pubkey);
+  const kindZeroEvent = await getKindZeroEvent(relayPool, event.pubkey);
 
   if (typeof kindZeroEvent === "undefined") {
     console.log("#Kmf59M Skipping event with no kind zero event", { event });
