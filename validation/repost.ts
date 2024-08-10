@@ -32,7 +32,9 @@ async function publishEvent(
   relay: nostrToolsRelay.Relay,
   event: VerifiedEvent
 ) {
+  console.log("Publishing event…");
   await relay.publish(event);
+  console.log("Event published.");
 }
 
 /**

@@ -67,7 +67,8 @@ async function getNip5PubKey(
     const nip5PubKey = nip5Json.names[trustrootsUsername];
 
     return nip5PubKey;
-  } catch {
+  } catch (e: unknown) {
+    console.warn(`Could not get nip5 key for ${trustrootsUsername}`, e);
     return;
   }
 }
