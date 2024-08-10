@@ -10,7 +10,6 @@ import {
 } from "../common/constants.ts";
 import { DEV_PUBKEY } from "../common/constants.ts";
 import { validateEvent } from "./validate.ts";
-import { NSet } from "@nostrify/nostrify";
 
 async function getRelayPool(isDev: true | undefined) {
   const relays = isDev ? DEV_RELAYS : DEFAULT_RELAYS;
