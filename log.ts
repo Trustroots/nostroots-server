@@ -3,10 +3,14 @@ import { logPackage } from "./deps.ts";
 logPackage.setup({
   handlers: {
     console: new logPackage.ConsoleHandler("DEBUG", {
-      formatter: (record) =>
-        `${record.datetime.toISOString()} [${record.levelName}] ${
+      formatter: function (record) {
+        const argsString =
+          record.args.length > 0 ? ` ${JSON.stringify(record.args)}` : "";
+        return `${record.datetime.toISOString()} [${record.levelName}] ${
           record.msg
-        } ${JSON.stringify(record.args)}`,
+        } ${argsString}`;
+      },
+
       useColors: true,
     }),
   },
