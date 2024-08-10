@@ -2,6 +2,7 @@
   "version": "3",
   "packages": {
     "specifiers": {
+      "jsr:@henrygd/queue@1.0.6": "jsr:@henrygd/queue@1.0.6",
       "jsr:@nostrify/nostrify@^0.30.0": "jsr:@nostrify/nostrify@0.30.0",
       "jsr:@nostrify/types@^0.30.0": "jsr:@nostrify/types@0.30.0",
       "jsr:@std/encoding@^0.224.1": "jsr:@std/encoding@0.224.3",
@@ -14,6 +15,9 @@
       "npm:zod@^3.23.8": "npm:zod@3.23.8"
     },
     "jsr": {
+      "@henrygd/queue@1.0.6": {
+        "integrity": "f5ff9ee41b9abcaf1b9f878cae72fdb7a3955740938871228f8cdcb75d037d8f"
+      },
       "@nostrify/nostrify@0.30.0": {
         "integrity": "7c29e7d8b5a0a81e238170ac1e7ad708bc72dd8f478d8d82c30598fb4eff9b9c",
         "dependencies": [
