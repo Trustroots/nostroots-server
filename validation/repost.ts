@@ -44,9 +44,9 @@ async function publishEvent(
   relayPool: nostrify.NPool,
   event: nostrify.NostrEvent
 ) {
-  log.debug("#aSmTVL Publishing event…");
+  log.debug("#aSmTVL Publishing event");
   await relayPool.event(event);
-  log.info("#p26tur Event published.");
+  log.info("#p26tur Event published.", event);
 }
 
 /**
