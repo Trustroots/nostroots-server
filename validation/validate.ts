@@ -1,4 +1,7 @@
-import { WAIT_FOR_KIND_ZERO_TIMEOUT_SECONDS } from "../common/constants.ts";
+import {
+  HITCHMAPS_AUTHOR_PUBLIC_KEY,
+  WAIT_FOR_KIND_ZERO_TIMEOUT_SECONDS,
+} from "../common/constants.ts";
 import { MINIMUM_TRUSTROOTS_USERNAME_LENGTH } from "../common/constants.ts";
 import { MAP_NOTE_KIND } from "../common/constants.ts";
 import { nostrify } from "../deps.ts";
@@ -82,7 +85,12 @@ export async function validateEvent(
     return false;
   }
 
-  const kindZeroEvent = await getKindZeroEvent(relayPool, event.pubkey);
+  // Automatically validate all hitchmap notes without checking for kind zero
+  if (event.pubkey === HITCHMAPS_AUTHOR_PUBLIC_KEY) {
+    return true;
+  }
+
+  const kindZeroEvent = await getKindZeroEvent(relay, event.pubkey);
 
   if (typeof kindZeroEvent === "undefined") {
     console.log("#Kmf59M Skipping event with no kind zero event", { event });
