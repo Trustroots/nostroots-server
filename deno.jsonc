@@ -1,8 +1,5 @@
 {
   "tasks": {
     "run": "deno run --allow-net --allow-env main.ts"
-  },
-  "imports": {
-    "@nostrify/nostrify": "jsr:@nostrify/nostrify@^0.30.0"
   }
 }

@@ -2,13 +2,12 @@
   "version": "3",
   "packages": {
     "specifiers": {
-      "jsr:@nostrify/nostrify@^0.30.0": "jsr:@nostrify/nostrify@0.30.0",
+      "jsr:@nostrify/nostrify": "jsr:@nostrify/nostrify@0.30.0",
       "jsr:@nostrify/types@^0.30.0": "jsr:@nostrify/types@0.30.0",
       "jsr:@std/encoding@^0.224.1": "jsr:@std/encoding@0.224.3",
       "npm:@scure/bip32@^1.4.0": "npm:@scure/bip32@1.4.0",
       "npm:@scure/bip39@^1.3.0": "npm:@scure/bip39@1.3.0",
       "npm:lru-cache@^10.2.0": "npm:lru-cache@10.4.3",
-      "npm:nostr-tools": "npm:nostr-tools@2.7.2",
       "npm:nostr-tools@^2.7.0": "npm:nostr-tools@2.7.2",
       "npm:websocket-ts@^2.1.5": "npm:websocket-ts@2.1.5",
       "npm:zod@^3.23.8": "npm:zod@3.23.8"
@@ -82,7 +81,7 @@
         "dependencies": {
           "@noble/curves": "@noble/curves@1.1.0",
           "@noble/hashes": "@noble/hashes@1.3.2",
-          "@scure/base": "@scure/base@1.1.1"
+          "@scure/base": "@scure/base@1.1.7"
         }
       },
       "@scure/bip32@1.4.0": {
@@ -97,7 +96,7 @@
         "integrity": "sha512-Z3/Fsz1yr904dduJD0NpiyRHhRYHdcnyh73FZWiV+/qhWi83wNJ3NWolYqCEN+ZWsUz2TWwajJggcRE9r1zUYg==",
         "dependencies": {
           "@noble/hashes": "@noble/hashes@1.3.2",
-          "@scure/base": "@scure/base@1.1.1"
+          "@scure/base": "@scure/base@1.1.7"
         }
       },
       "@scure/bip39@1.3.0": {
@@ -233,10 +232,5 @@
     "https://deno.land/x/cliffy@v0.25.7/table/row.ts": "5f519ba7488d2ef76cbbf50527f10f7957bfd668ce5b9169abbc44ec88302645",
     "https://deno.land/x/cliffy@v0.25.7/table/table.ts": "ec204c9d08bb3ff1939c5ac7412a4c9ed7d00925d4fc92aff9bfe07bd269258d",
     "https://deno.land/x/cliffy@v0.25.7/table/utils.ts": "187bb7dcbcfb16199a5d906113f584740901dfca1007400cba0df7dcd341bc29"
-  },
-  "workspace": {
-    "dependencies": [
-      "jsr:@nostrify/nostrify@^0.30.0"
-    ]
   }
 }
