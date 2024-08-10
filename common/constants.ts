@@ -1,6 +1,3 @@
-import { nostrTools } from "../deps.ts";
-type Kind = nostrTools.Kind;
-
 export const PRIVATE_KEY_STORAGE_KEY = "__nostrPrivateKey" as const;
 export const RELAYS_STORAGE_KEY = "__nostrRelays" as const;
 export const PLUS_CODE_TAG_KEY = "l" as const;

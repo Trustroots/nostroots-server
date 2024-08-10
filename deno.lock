@@ -2,7 +2,37 @@
   "version": "3",
   "packages": {
     "specifiers": {
-      "npm:nostr-tools": "npm:nostr-tools@2.7.2"
+      "jsr:@nostrify/nostrify@^0.30.0": "jsr:@nostrify/nostrify@0.30.0",
+      "jsr:@nostrify/types@^0.30.0": "jsr:@nostrify/types@0.30.0",
+      "jsr:@std/encoding@^0.224.1": "jsr:@std/encoding@0.224.3",
+      "npm:@scure/bip32@^1.4.0": "npm:@scure/bip32@1.4.0",
+      "npm:@scure/bip39@^1.3.0": "npm:@scure/bip39@1.3.0",
+      "npm:lru-cache@^10.2.0": "npm:lru-cache@10.4.3",
+      "npm:nostr-tools": "npm:nostr-tools@2.7.2",
+      "npm:nostr-tools@^2.7.0": "npm:nostr-tools@2.7.2",
+      "npm:websocket-ts@^2.1.5": "npm:websocket-ts@2.1.5",
+      "npm:zod@^3.23.8": "npm:zod@3.23.8"
+    },
+    "jsr": {
+      "@nostrify/nostrify@0.30.0": {
+        "integrity": "7c29e7d8b5a0a81e238170ac1e7ad708bc72dd8f478d8d82c30598fb4eff9b9c",
+        "dependencies": [
+          "jsr:@nostrify/types@^0.30.0",
+          "jsr:@std/encoding@^0.224.1",
+          "npm:@scure/bip32@^1.4.0",
+          "npm:@scure/bip39@^1.3.0",
+          "npm:lru-cache@^10.2.0",
+          "npm:nostr-tools@^2.7.0",
+          "npm:websocket-ts@^2.1.5",
+          "npm:zod@^3.23.8"
+        ]
+      },
+      "@nostrify/types@0.30.0": {
+        "integrity": "1f38fa849cff930bd709edbf94ef9ac02f46afb8b851f86c8736517b354616da"
+      },
+      "@std/encoding@0.224.3": {
+        "integrity": "5e861b6d81be5359fad4155e591acf17c0207b595112d1840998bb9f476dbdaf"
+      }
     },
     "npm": {
       "@noble/ciphers@0.5.3": {
@@ -21,6 +51,12 @@
           "@noble/hashes": "@noble/hashes@1.3.2"
         }
       },
+      "@noble/curves@1.4.2": {
+        "integrity": "sha512-TavHr8qycMChk8UwMld0ZDRvatedkzWfH8IiaeGCfymOP5i0hSCozz9vHOL0nkwk7HRMlFnAiKpS2jrUmSybcw==",
+        "dependencies": {
+          "@noble/hashes": "@noble/hashes@1.4.0"
+        }
+      },
       "@noble/hashes@1.3.1": {
         "integrity": "sha512-EbqwksQwz9xDRGfDST86whPBgM65E0OH/pCgqW0GBVzO22bNE+NuIbeTb714+IfSjU3aRk47EUvXIb5bTsenKA==",
         "dependencies": {}
@@ -29,8 +65,16 @@
         "integrity": "sha512-MVC8EAQp7MvEcm30KWENFjgR+Mkmf+D189XJTkFIlwohU5hcBbn1ZkKq7KVTi2Hme3PMGF390DaL52beVrIihQ==",
         "dependencies": {}
       },
+      "@noble/hashes@1.4.0": {
+        "integrity": "sha512-V1JJ1WTRUqHHrOSh597hURcMqVKVGL/ea3kv0gSnEdsEZ0/+VyPghM1lMNGc00z7CIQorSvbKpuJkxvuHbvdbg==",
+        "dependencies": {}
+      },
       "@scure/base@1.1.1": {
         "integrity": "sha512-ZxOhsSyxYwLJj3pLZCefNitxsj093tb2vq90mp2txoYeBqbcjDjqFhyM8eUjq/uFm6zJ+mUuqxlS2FkuSY1MTA==",
+        "dependencies": {}
+      },
+      "@scure/base@1.1.7": {
+        "integrity": "sha512-PPNYBslrLNNUQ/Yad37MHYsNQtK67EhWb6WtSvNLLPo7SdVZgkUjD6Dg+5On7zNwmskf8OX7I7Nx5oN+MIWE0g==",
         "dependencies": {}
       },
       "@scure/bip32@1.3.1": {
@@ -41,12 +85,31 @@
           "@scure/base": "@scure/base@1.1.1"
         }
       },
+      "@scure/bip32@1.4.0": {
+        "integrity": "sha512-sVUpc0Vq3tXCkDGYVWGIZTRfnvu8LoTDaev7vbwh0omSvVORONr960MQWdKqJDCReIEmTj3PAr73O3aoxz7OPg==",
+        "dependencies": {
+          "@noble/curves": "@noble/curves@1.4.2",
+          "@noble/hashes": "@noble/hashes@1.4.0",
+          "@scure/base": "@scure/base@1.1.7"
+        }
+      },
       "@scure/bip39@1.2.1": {
         "integrity": "sha512-Z3/Fsz1yr904dduJD0NpiyRHhRYHdcnyh73FZWiV+/qhWi83wNJ3NWolYqCEN+ZWsUz2TWwajJggcRE9r1zUYg==",
         "dependencies": {
           "@noble/hashes": "@noble/hashes@1.3.2",
           "@scure/base": "@scure/base@1.1.1"
         }
+      },
+      "@scure/bip39@1.3.0": {
+        "integrity": "sha512-disdg7gHuTDZtY+ZdkmLpPCk7fxZSu3gBiEGuoC1XYxv9cGx3Z6cpTggCgW6odSOOIXCiDjuGejW+aJKCY/pIQ==",
+        "dependencies": {
+          "@noble/hashes": "@noble/hashes@1.4.0",
+          "@scure/base": "@scure/base@1.1.7"
+        }
+      },
+      "lru-cache@10.4.3": {
+        "integrity": "sha512-JNAzZcXrCt42VGLuYz0zfAzDfAvJWW6AfYlDBQyDV5DClI2m5sAmK+OIO7s59XfsRsWHp02jAJrRadPRGTt6SQ==",
+        "dependencies": {}
       },
       "nostr-tools@2.7.2": {
         "integrity": "sha512-Bq3Ug0SZFtgtL1+0wCnAe8AJtI7yx/00/a2nUug9SkhfOwlKS92Tef12iCK9FdwXw+oFZWMtRnSwcLayQso+xA==",
@@ -62,6 +125,14 @@
       },
       "nostr-wasm@0.1.0": {
         "integrity": "sha512-78BTryCLcLYv96ONU8Ws3Q1JzjlAt+43pWQhIl86xZmWeegYCNLPml7yQ+gG3vR6V5h4XGj+TxO+SS5dsThQIA==",
+        "dependencies": {}
+      },
+      "websocket-ts@2.1.5": {
+        "integrity": "sha512-rCNl9w6Hsir1azFm/pbjBEFzLD/gi7Th5ZgOxMifB6STUfTSovYAzryWw0TRvSZ1+Qu1Z5Plw4z42UfTNA9idA==",
+        "dependencies": {}
+      },
+      "zod@3.23.8": {
+        "integrity": "sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==",
         "dependencies": {}
       }
     }
@@ -162,5 +233,10 @@
     "https://deno.land/x/cliffy@v0.25.7/table/row.ts": "5f519ba7488d2ef76cbbf50527f10f7957bfd668ce5b9169abbc44ec88302645",
     "https://deno.land/x/cliffy@v0.25.7/table/table.ts": "ec204c9d08bb3ff1939c5ac7412a4c9ed7d00925d4fc92aff9bfe07bd269258d",
     "https://deno.land/x/cliffy@v0.25.7/table/utils.ts": "187bb7dcbcfb16199a5d906113f584740901dfca1007400cba0df7dcd341bc29"
+  },
+  "workspace": {
+    "dependencies": [
+      "jsr:@nostrify/nostrify@^0.30.0"
+    ]
   }
 }
