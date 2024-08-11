@@ -9,8 +9,9 @@ export const DEFAULT_RELAYS = [
   "wss://relay.damus.io",
   "wss://relay.primal.net",
   "wss://nostr.manasiwibi.com",
+  "wss://nos.lol",
 ];
-export const DEV_RELAYS = ["wss://nos.lol"];
+export const DEV_RELAYS = DEFAULT_RELAYS;
 export const PANEL_CONTAINER_ID = "panelID";
 export const BADGE_CONTAINER_ID = "badge";
 export const CONTENT_MINIMUM_LENGTH = 3;
