@@ -7,6 +7,7 @@ import {
   DEV_RELAYS,
   MAP_NOTE_KIND,
   MAP_NOTE_REPOST_KIND,
+  SUBSCRIPTIONS_MAX_AGE_IN_MINUTES,
 } from "../common/constants.ts";
 import { DEV_PUBKEY } from "../common/constants.ts";
 import { validateEvent } from "./validate.ts";
@@ -137,25 +138,56 @@ export async function repost(
 
   const relayPool = await getRelayPool(isDev);
 
-  const filter = createFilter(isDev, maxAgeMinutes);
+  let lastReceivedMessageTimestamp = 0;
+  let controller: AbortController;
+  let signal: AbortSignal;
 
-  const controller = new AbortController();
-  const signal = controller.signal;
-  const subscription = relayPool.req(filter, { signal });
+  async function _subscribe() {
+    console.log(
+      `(Re)starting subscriptions, last message received at ${lastReceivedMessageTimestamp} (${new Date(
+        lastReceivedMessageTimestamp * 1000
+      ).toLocaleString()})`
+    );
+    if (lastReceivedMessageTimestamp)
+      maxAgeMinutes =
+        (Math.floor(Date.now() / 1000) - lastReceivedMessageTimestamp) / 60 + 1;
 
-  const queue = newQueue(3);
-  const processEventFactory = processEventFactoryFactory(relayPool, privateKey);
+    const filter = createFilter(isDev, maxAgeMinutes);
 
-  for await (const msg of subscription) {
-    if (msg[0] === "EVENT") {
-      const event = msg[2];
-      queue.add(processEventFactory(event));
-    } else if (msg[0] === "EOSE") {
-      if (isDev) {
-        globalThis.setTimeout(() => {
-          controller.abort();
-        }, 10e3);
+    if (controller) controller.abort();
+    controller = new AbortController();
+    signal = controller.signal;
+    const subscription = relayPool.req(filter, { signal });
+
+    const queue = newQueue(3);
+    const processEventFactory = processEventFactoryFactory(
+      relayPool,
+      privateKey
+    );
+
+    try {
+      for await (const msg of subscription) {
+        console.log("got msg", msg);
+
+        if (msg[0] === "EVENT") {
+          const event = msg[2];
+          lastReceivedMessageTimestamp = event.created_at;
+          queue.add(processEventFactory(event));
+        } else if (msg[0] === "EOSE") {
+          if (isDev) {
+            globalThis.setTimeout(() => {
+              controller.abort();
+            }, 10e3);
+          }
+        }
       }
+    } catch (e) {
+      console.log("got error");
+      console.log(e.reason);
+      console.log(e, typeof e);
     }
   }
+
+  _subscribe();
+  setInterval(_subscribe, SUBSCRIPTIONS_MAX_AGE_IN_MINUTES * 60 * 1000);
 }
