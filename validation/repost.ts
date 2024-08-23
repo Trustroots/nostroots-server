@@ -1,4 +1,4 @@
-import { nostrify } from "../deps.ts";
+import { kind30398event, nostrify } from "../deps.ts";
 const { NPool, NRelay1, NSecSigner } = nostrify;
 type Tags = string[][];
 
@@ -75,7 +75,7 @@ async function generateRepostedEvent(
     content: derivedContent,
   };
   const signedEvent = await signer.signEvent(eventTemplate);
-  return signedEvent;
+  return kind30398event.kind30398EventSchema.parse(signedEvent);
 }
 
 function deriveTags(event: nostrify.NostrEvent): Tags {
